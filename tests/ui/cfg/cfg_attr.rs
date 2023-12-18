@@ -35,8 +35,11 @@ struct Complex;
 #[cfg_attr(any(notset, not(any(set1, notset))), derive(Debug))]
 struct ComplexNot(NotDebugable);
 
-#[cfg_attr(any(target_endian = "little", target_endian = "big"), derive(Debug))]
+#[cfg_attr(one(target_endian = "little", target_endian = "big"), derive(Debug))]
 struct KeyValue;
+
+#[cfg_attr(one(set1, notset), derive(Debug))]
+struct OnlyOneSet;
 
 fn is_show<T: Debug>() {}
 
@@ -47,4 +50,5 @@ fn main() {
     is_show::<AnySet1Notset>();
     is_show::<Complex>();
     is_show::<KeyValue>();
+    is_show::<OnlyOneSet>();
 }

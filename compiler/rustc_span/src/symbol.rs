@@ -1149,6 +1149,7 @@ symbols! {
         omit_gdb_pretty_printer_section,
         on,
         on_unimplemented,
+        one,
         opaque,
         opt_out_copy,
         optimize,

@@ -22,8 +22,17 @@ fn foo3() -> isize { 2 }
 #[cfg(not(all(fooA, bar)))]
 fn foo3() -> isize { 3 }
 
+// fooA AND !fooB
+#[cfg(one(fooA, not(fooB)))]
+fn foo4() -> isize { 4 }
+
+// fooA AND fooB (return: false)
+#[cfg(one(fooA, fooB))]
+fn foo4() -> isize { 0 }
+
 pub fn main() {
     assert_eq!(1, foo1());
     assert_eq!(3, foo2());
     assert_eq!(3, foo3());
+    assert_eq!(4, foo4());
 }

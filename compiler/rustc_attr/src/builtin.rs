@@ -580,7 +580,7 @@ fn parse_version(s: Symbol) -> Option<RustcVersion> {
     Some(RustcVersion { major, minor, patch })
 }
 
-/// Evaluate a cfg-like condition (with `any` and `all`), using `eval` to
+/// Evaluate a cfg-like condition (with `all`, `any` and `one`), using `eval` to
 /// evaluate individual items.
 pub fn eval_condition(
     cfg: &ast::MetaItem,
@@ -660,6 +660,11 @@ pub fn eval_condition(
                     }
 
                     !eval_condition(mis[0].meta_item().unwrap(), sess, features, eval)
+                }
+                sym::one => {
+                    1 == mis.iter().fold(0, |sum, mi| {
+                        sum + eval_condition(mi.meta_item().unwrap(), sess, features, eval) as usize
+                    })
                 }
                 sym::target => {
                     if let Some(features) = features
